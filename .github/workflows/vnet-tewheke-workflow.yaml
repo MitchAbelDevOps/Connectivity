@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
 
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
