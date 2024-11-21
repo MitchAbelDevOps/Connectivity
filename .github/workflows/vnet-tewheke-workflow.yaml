@@ -44,13 +44,14 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
+      with:
+        tf_actions_working_dir: 'rg-networking-tewheke/Infrastructure/Virtual Network'
       run: terraform init \
         -backend-config="storage_account_name=saterraformstateauedev" \
         -backend-config="container_name=integration-terraform-state" \
         -backend-config="key=vnet-tewheke.tfstate" \
         -backend-config="access_key=${{ steps.get-key.outputs.storage_account_key }}" \
-      with:
-        tf_actions_working_dir: 'rg-networking-tewheke/Infrastructure/Virtual Network'
+      
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
