@@ -40,7 +40,7 @@ jobs:
       uses: azure/cli@v2
       with:
         inlineScript: |
-          $key = az storage account keys list -g "rg-integrationmanagement-aue" -n "saterraformstateauedev" --query [0].value -o tsv
+          key=az storage account keys list -g "rg-integrationmanagement-aue" -n "saterraformstateauedev" --query [0].value -o tsv
           echo "::set-output name=storage_account_key::$key"
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
