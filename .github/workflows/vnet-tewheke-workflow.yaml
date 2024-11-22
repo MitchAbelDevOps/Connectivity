@@ -3,6 +3,9 @@ name: 'vnet-tewheke-workflow'
 on:
   workflow_dispatch: # Trigger manually via GitHub Actions interface
 
+env:
+  AZURE_CORE_LOG_LEVEL: DEBUG
+
 jobs:
   dev:
     name: 'Terraform'
@@ -34,7 +37,7 @@ jobs:
     # Retrieve Storage account key, change to MSI?
     - name: Get Terraform Storage Account Key
       id: get-key
-      uses: azure/cli@v1
+      uses: azure/cli@v2
       with:
         inlineScript: |
           $key = az storage account keys list -g "rg-integrationmanagement-aue" -n "saterraformstateauedev" --query [0].value -o tsv
