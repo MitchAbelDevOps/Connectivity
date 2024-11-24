@@ -48,12 +48,6 @@ jobs:
           key=$(az storage account keys list -g "rg-integrationmanagement-aue" -n "saterraformstateauedev" --query [0].value -o tsv)
           echo "TF_STORAGE_ACCOUNT_KEY=$key" >> $GITHUB_ENV
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: '1.5.0'
-
     # Set environment variables dynamically
     # TODO set these values from github env using ${{vars.varname}}?
     - name: Set Environment Variables
@@ -62,21 +56,38 @@ jobs:
         echo "TF_VAR_locationSuffix=aue" >> $GITHUB_ENV
         echo "TF_VAR_resourceSuffix=tewheke" >> $GITHUB_ENV
         echo "TF_VAR_environment=dev" >> $GITHUB_ENV
+    
+    # Call the reusable workflow from the DevOps repository
+    - name: Call Terraform Init Workflow
+      uses: DevOps/.github/workflows/terraform-init.yml@main
+      with:
+        terraform_version: '1.5.0'
+        storage_account_name: "saterraformstateauedev"
+        container_name: "terraform-state"
+        key: "nsgs-tewheke.tfstate"
+        access_key: "${{ env.TF_STORAGE_ACCOUNT_KEY }}"
+        working_directory: "rg-networking-tewheke/Infrastructure"
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    # TODO make key a param
-    - name: Terraform Init
-      run: |
-        terraform init \
-          -backend-config="storage_account_name=saterraformstateauedev" \
-          -backend-config="container_name=terraform-state" \
-          -backend-config="key=nsgs-tewheke.tfstate" \
-          -backend-config="access_key=${TF_STORAGE_ACCOUNT_KEY}"
-      working-directory: 'rg-networking-tewheke/Infrastructure'
+    # # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    # - name: Install Terraform
+    #   uses: hashicorp/setup-terraform@v2
+    #   with:
+    #     terraform_version: '1.5.0'
 
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
+    # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    # # TODO make key a param
+    # - name: Terraform Init
+    #   run: |
+    #     terraform init \
+    #       -backend-config="storage_account_name=saterraformstateauedev" \
+    #       -backend-config="container_name=terraform-state" \
+    #       -backend-config="key=nsgs-tewheke.tfstate" \
+    #       -backend-config="access_key=${TF_STORAGE_ACCOUNT_KEY}"
+    #   working-directory: 'rg-networking-tewheke/Infrastructure'
+
+    # # Checks that all Terraform configuration files adhere to a canonical format
+    # - name: Terraform Format
+    #   run: terraform fmt -check
 
     # Add TF Validate?
 
