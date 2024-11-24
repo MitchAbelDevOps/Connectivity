@@ -6,7 +6,7 @@ appGatewaySubnetAddressPrefix = [
   "10.241.32.0/27"
 ]
 
-gitHubRunnersAddressPrefix = [
+gitHubRunnersSubnetAddressPrefix = [
   "10.241.32.32/28"
 ]
 
