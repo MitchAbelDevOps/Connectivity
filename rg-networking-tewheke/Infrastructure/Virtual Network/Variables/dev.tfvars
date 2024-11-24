@@ -1,3 +1,5 @@
+environment="dev"
+
 integrationVNETAddressSpace = [
   "10.241.32.0/24"
 ]

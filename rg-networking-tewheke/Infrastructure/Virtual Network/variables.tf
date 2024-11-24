@@ -4,17 +4,26 @@ Global Variables
 variable "location" {
   type        = string
   description = "The Azure location in which the deployment is happening"
+  default = "australiaeast"
+}
+
+variable "locationSuffix" {
+  type        = string
+  description = "The Azure location in which the deployment is happening"
+  default = "aue"
 }
 
 variable "resourceSuffix" {
   type        = string
   description = "A suffix for naming"
+  default = "tewheke"
 }
 
 variable "environment" {
   type        = string
   description = "Environment"
 }
+
 /**************************************************
 Existing Resource Variables
 ***************************************************/

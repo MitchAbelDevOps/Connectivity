@@ -2,7 +2,7 @@
 Existing Resources
 ***************************************************/
 data "azurerm_network_security_group" "appgateway_nsg" {
-  name                = "nsg-apgw-${var.resourceSuffix}"
+  name                = "nsg-apgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   resource_group_name = var.resourceGroupName
 }
 
