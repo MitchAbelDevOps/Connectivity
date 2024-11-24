@@ -59,7 +59,7 @@ jobs:
     
     # Call the reusable workflow from the DevOps repository
     - name: Call Terraform Init Workflow
-      uses: DevOps/.github/workflows/terraform-init.yml@main
+      uses: MitchAbelDevOps/DevOps/.github/workflows/terraform-init.yml@main
       with:
         terraform_version: '1.5.0'
         storage_account_name: "saterraformstateauedev"
