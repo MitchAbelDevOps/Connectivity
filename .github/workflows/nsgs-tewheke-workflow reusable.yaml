@@ -30,10 +30,6 @@ jobs:
       root_directory: ${{ github.event.inputs.root_directory }}
       sub_directory: ${{ github.event.inputs.sub_directory }}
       terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
-    secrets:
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   # # Test Environment
   # test:
@@ -43,10 +39,6 @@ jobs:
   #     root_directory: ${{ github.event.inputs.root_directory }}
   #     sub_directory: ${{ github.event.inputs.sub_directory }}
   #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
-  #   secrets:
-  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   # # Staging Environment
   # staging:
@@ -56,10 +48,6 @@ jobs:
   #     root_directory: ${{ github.event.inputs.root_directory }}
   #     sub_directory: ${{ github.event.inputs.sub_directory }}
   #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
-  #   secrets:
-  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   # # UAT Environment
   # uat:
@@ -69,11 +57,6 @@ jobs:
   #     root_directory: ${{ github.event.inputs.root_directory }}
   #     sub_directory: ${{ github.event.inputs.sub_directory }}
   #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
-  #   secrets:
-  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
   # # Prod Environment
   # prod:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
@@ -82,7 +65,3 @@ jobs:
   #     root_directory: ${{ github.event.inputs.root_directory }}
   #     sub_directory: ${{ github.event.inputs.sub_directory }}
   #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
-  #   secrets:
-  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
