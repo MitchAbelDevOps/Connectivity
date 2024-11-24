@@ -23,6 +23,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    # Copy Specific Files to Root Directory
+    - name: Prepare Terraform Files
+      run: |
+        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/main.tf rg-networking-tewheke/Infrastructure/
+        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/variables.tf rg-networking-tewheke/Infrastructure/
+        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/Variables/dev.tfvars rg-networking-tewheke/Infrastructure/dev.tfvars
+
     # Login to Azure using OIDC
     - name: Azure Login
       uses: azure/login@v1
@@ -46,11 +53,9 @@ jobs:
       with:
         terraform_version: '1.5.0'
 
-    # Copy Specific Files to Root Directory
-    - name: Prepare Terraform Files
-      run: |
-        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/main.tf rg-networking-tewheke/Infrastructure/
-        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/Variables/dev.tfvars rg-networking-tewheke/Infrastructure/dev.tfvars
+    # # Set environment variables dynamically
+    # - name: Set Environment Variables
+    #   run: echo "TF_VAR_location=${{ vars.AZURE_LOCATION }}" >> $GITHUB_ENV
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
