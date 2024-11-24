@@ -60,7 +60,7 @@ resource "azurerm_subnet_network_security_group_association" "appgateway_subnet"
 resource "azurerm_subnet" "runners_subnet" {
   name                 = "snet-runners-${var.resourceSuffix}"
   resource_group_name  = var.resourceGroupName
-  virtual_network_name = azurerm_virtual_network.apim_cs_vnet.name
+  virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.gitHubRunnersSubnetAddressPrefix
 
   lifecycle {
@@ -80,7 +80,7 @@ resource "azurerm_subnet_network_security_group_association" "runners_subnet" {
 resource "azurerm_subnet" "apim_subnet" {
   name                 = "snet-apim-${var.resourceSuffix}"
   resource_group_name  = var.resourceGroupName
-  virtual_network_name = azurerm_virtual_network.apim_cs_vnet.name
+  virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.apimSubnetAddressPrefix
 
   lifecycle {
@@ -100,7 +100,7 @@ resource "azurerm_subnet_network_security_group_association" "apim_subnet" {
 resource "azurerm_subnet" "private_endpoint_subnet" {
   name                 = "snet-prep-${var.resourceSuffix}"
   resource_group_name  = var.resourceGroupName
-  virtual_network_name = azurerm_virtual_network.apim_cs_vnet.name
+  virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.privateEndpointSubnetAddressPrefix
 
   lifecycle {
@@ -121,7 +121,7 @@ resource "azurerm_subnet_network_security_group_association" "private_endpoint_s
 resource "azurerm_subnet" "deploy_subnet" {
   name                 = "snet-apps-${var.resourceSuffix}"
   resource_group_name  = var.resourceGroupName
-  virtual_network_name = azurerm_virtual_network.apim_cs_vnet.name
+  virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.appsSubnetAddressPrefix
 
   service_endpoints = ["Microsoft.Storage"]
