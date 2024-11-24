@@ -66,7 +66,9 @@ jobs:
     - name: Terraform Plan
       run: |
         terraform plan \
-          -var-file="Variables/dev.tfvars"
+          -input=false \
+          -var-file="Variables/dev.tfvars" \
+          -out=deployment.tfplan
       working-directory: 'rg-networking-tewheke/Infrastructure/Virtual Network'
 
     #   # On push to "main", build or change infrastructure according to Terraform configuration files
