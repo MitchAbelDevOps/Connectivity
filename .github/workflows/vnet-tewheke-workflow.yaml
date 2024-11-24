@@ -54,7 +54,7 @@ jobs:
           -backend-config="container_name=integration-terraform-state" \
           -backend-config="key=vnet-tewheke.tfstate" \
           -backend-config="access_key=${TF_STORAGE_ACCOUNT_KEY}"
-      working-directory: 'rg-networking-tewheke/Infrastructure/Virtual Network'
+      working-directory: 'rg-networking-tewheke/Infrastructure'
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
