@@ -46,6 +46,12 @@ jobs:
       with:
         terraform_version: '1.5.0'
 
+    # Copy Specific Files to Root Directory
+    - name: Prepare Terraform Files
+      run: |
+        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/main.tf rg-networking-tewheke/Infrastructure/
+        cp rg-networking-tewheke/Infrastructure/Virtual\ Network/Variables/dev.tfvars rg-networking-tewheke/Infrastructure/dev.tfvars
+
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: |
@@ -54,7 +60,7 @@ jobs:
           -backend-config="container_name=terraform-state" \
           -backend-config="key=vnet-tewheke.tfstate" \
           -backend-config="access_key=${TF_STORAGE_ACCOUNT_KEY}"
-      working-directory: 'rg-networking-tewheke/Infrastructure/Virtual Network'
+      working-directory: 'rg-networking-tewheke/Infrastructure'
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
@@ -67,11 +73,17 @@ jobs:
       run: |
         terraform plan \
           -input=false \
-          -var-file="Variables/dev.tfvars" \
+          -var-file="dev.tfvars" \
           -out=deployment.tfplan
-      working-directory: 'rg-networking-tewheke/Infrastructure/Virtual Network'
+      working-directory: 'rg-networking-tewheke/Infrastructure'
 
     #   # On push to "main", build or change infrastructure according to Terraform configuration files
     #   # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     # - name: Terraform Apply
     #   run: terraform apply -auto-approve -input=false
+
+    # Clean Up Temporary Files
+    - name: Clean Up Terraform Files
+      run: |
+        rm -f rg-networking-tewheke/Infrastructure/main.tf
+        rm -f rg-networking-tewheke/Infrastructure/dev.tfvars
