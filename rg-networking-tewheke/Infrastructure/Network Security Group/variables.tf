@@ -6,6 +6,11 @@ variable "location" {
   description = "The Azure location in which the deployment is happening"
 }
 
+variable "locationSuffix" {
+  type        = string
+  description = "The Azure location in which the deployment is happening"
+}
+
 variable "resourceSuffix" {
   type        = string
   description = "A suffix for naming"

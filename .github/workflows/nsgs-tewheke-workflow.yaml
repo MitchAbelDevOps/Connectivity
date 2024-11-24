@@ -54,9 +54,13 @@ jobs:
       with:
         terraform_version: '1.5.0'
 
-    # # Set environment variables dynamically
-    # - name: Set Environment Variables
-    #   run: echo "TF_VAR_location=${{ vars.AZURE_LOCATION }}" >> $GITHUB_ENV
+    # Set environment variables dynamically
+    - name: Set Environment Variables
+      run: | 
+        echo "TF_VAR_location=$australiaeast" >> $GITHUB_ENV \
+        echo "TF_VAR_locationSuffix=$aue" >> $GITHUB_ENV \
+        echo "TF_VAR_resourceSuffix=$tewheke" >> $GITHUB_ENV \
+        echo "TF_VAR_environment=$dev" >> $GITHUB_ENV \
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     # TODO make key a param
