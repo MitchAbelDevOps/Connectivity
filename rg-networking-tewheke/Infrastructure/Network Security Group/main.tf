@@ -8,7 +8,7 @@ New Resources
 resource "azurerm_network_security_group" "appgateway_nsg" {
   name                = "nsg-apgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location            = var.location
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 
   security_rule {
     name                       = "AllowHealthProbesInbound"
@@ -65,7 +65,7 @@ resource "azurerm_network_security_group" "appgateway_nsg" {
 resource "azurerm_network_security_group" "apim_nsg" {
   name                = "nsg-apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location            = var.location
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 
   security_rule {
     name                       = "AllowApimVnetInbound"
@@ -147,7 +147,7 @@ resource "azurerm_network_security_group" "apim_nsg" {
 resource "azurerm_network_security_group" "runners_nsg" {
   name                = "nsg-runners-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}" 
   location            = var.location
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 
   security_rule {
     name                       = "AllowApimVnetInbound"
@@ -229,7 +229,7 @@ resource "azurerm_network_security_group" "runners_nsg" {
 resource "azurerm_network_security_group" "private_endpoint_nsg" {
   name                = "nsg-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location            = var.location
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 
   lifecycle {
     prevent_destroy = false
