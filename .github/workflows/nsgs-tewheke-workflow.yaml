@@ -1,4 +1,4 @@
-name: 'vnet-tewheke-workflow'
+name: 'nsgs-tewheke-workflow'
 
 on:
   workflow_dispatch: # Trigger manually via GitHub Actions interface
