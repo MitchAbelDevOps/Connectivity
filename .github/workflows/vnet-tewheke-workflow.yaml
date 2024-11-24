@@ -89,6 +89,7 @@ jobs:
 
     # Clean Up Temporary Files
     - name: Clean Up Terraform Files
+      if: always()
       run: |
         rm -f rg-networking-tewheke/Infrastructure/main.tf
         rm -f rg-networking-tewheke/Infrastructure/variables.tf
