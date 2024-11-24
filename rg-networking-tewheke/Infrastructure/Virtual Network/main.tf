@@ -50,7 +50,7 @@ resource "azurerm_subnet" "appgateway_subnet" {
 
 resource "azurerm_subnet_network_security_group_association" "appgateway_subnet" {
   subnet_id                 = azurerm_subnet.appgateway_subnet.id
-  network_security_group_id = azurerm_network_security_group.appgateway_nsg.id
+  network_security_group_id = data.azurerm_network_security_group.appgateway_nsg.id
 
   lifecycle {
     prevent_destroy = false
@@ -70,7 +70,7 @@ resource "azurerm_subnet" "runners_subnet" {
 
 resource "azurerm_subnet_network_security_group_association" "runners_subnet" {
   subnet_id                 = azurerm_subnet.runners_subnet.id
-  network_security_group_id = azurerm_network_security_group.runners_snnsg_nsg.id
+  network_security_group_id = data.azurerm_network_security_group.runners_snnsg_nsg.id
 
   lifecycle {
     prevent_destroy = false
@@ -90,7 +90,7 @@ resource "azurerm_subnet" "apim_subnet" {
 
 resource "azurerm_subnet_network_security_group_association" "apim_subnet" {
   subnet_id                 = azurerm_subnet.apim_subnet.id
-  network_security_group_id = azurerm_network_security_group.apim_snnsg_nsg.id
+  network_security_group_id = data.azurerm_network_security_group.apim_snnsg_nsg.id
 
   lifecycle {
     prevent_destroy = false
@@ -110,7 +110,7 @@ resource "azurerm_subnet" "private_endpoint_subnet" {
 
 resource "azurerm_subnet_network_security_group_association" "private_endpoint_subnet" {
   subnet_id                 = azurerm_subnet.private_endpoint_subnet.id
-  network_security_group_id = azurerm_network_security_group.private_endpoint_snnsg_nsg.id
+  network_security_group_id = data.azurerm_network_security_group.private_endpoint_snnsg_nsg.id
 
   lifecycle {
     prevent_destroy = false

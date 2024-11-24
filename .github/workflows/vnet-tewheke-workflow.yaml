@@ -5,7 +5,7 @@ on:
 
 jobs:
   dev:
-    name: 'Terraform'
+    name: 'Development'
     runs-on: ubuntu-latest
     environment: dev
 
@@ -91,4 +91,5 @@ jobs:
     - name: Clean Up Terraform Files
       run: |
         rm -f rg-networking-tewheke/Infrastructure/main.tf
+        rm -f rg-networking-tewheke/Infrastructure/variables.tf
         rm -f rg-networking-tewheke/Infrastructure/dev.tfvars
