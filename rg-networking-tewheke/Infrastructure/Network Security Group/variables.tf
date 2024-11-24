@@ -31,5 +31,5 @@ New Resource Variables
 variable "resourceGroupName" {
   type        = string
   description = "The name of the resource group to deploy to"
-  default     = "rg-networking"
+  default     = "rg-networking-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }

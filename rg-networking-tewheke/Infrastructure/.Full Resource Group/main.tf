@@ -1,4 +1,13 @@
 /**************************************************
+New Resources
+***************************************************/
+// Create RG if it does not already exist
+resource "azurerm_resource_group" "resourceGroup" {
+  name = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  location = var.location
+}
+
+/**************************************************
 Module Calls
 ***************************************************/
 module "nsg" {
