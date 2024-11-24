@@ -1,0 +1,88 @@
+name: 'NSGs Deployment'
+
+on:
+  workflow_dispatch:
+    inputs:
+      root_directory:
+        description: 'Root directory where Terraform config is located'
+        required: false
+        default: 'rg-networking-tewheke/Infrastructure'
+        type: string
+      sub_directory:
+        description: 'Sub-directory containing resource Terraform files'
+        required: false
+        default: 'rg-networking-tewheke/Infrastructure/Network Security Group'
+        type: string
+      terraform_state_filename:
+        description: 'Name for the tfstate blob to create for this resource'
+        required: false
+        default: 'nsgs-tewheke.tfstate'
+        type: string
+
+
+
+jobs:
+  # Dev Environment
+  dev:
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+    with:
+      environment: 'dev'
+      root_directory: ${{ github.event.inputs.root_directory }}
+      sub_directory: ${{ github.event.inputs.sub_directory }}
+      terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  # # Test Environment
+  # test:
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'test'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #   secrets:
+  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  # # Staging Environment
+  # staging:
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'staging'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #   secrets:
+  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  # # UAT Environment
+  # uat:
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'uat'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #   secrets:
+  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  # # Prod Environment
+  # prod:
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'prod'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #   secrets:
+  #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
