@@ -51,7 +51,7 @@ jobs:
       run: |
         terraform init \
           -backend-config="storage_account_name=saterraformstateauedev" \
-          -backend-config="container_name=integration-terraform-state" \
+          -backend-config="container_name=terraform-state" \
           -backend-config="key=vnet-tewheke.tfstate" \
           -backend-config="access_key=${TF_STORAGE_ACCOUNT_KEY}"
       working-directory: 'rg-networking-tewheke/Infrastructure'
