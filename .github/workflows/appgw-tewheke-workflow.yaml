@@ -1,7 +1,7 @@
 name: 'appgw-tewheke-workflow'
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       root_directory:
         description: 'Root directory where Terraform config is located'

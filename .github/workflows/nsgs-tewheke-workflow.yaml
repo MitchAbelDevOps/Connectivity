@@ -1,7 +1,7 @@
 name: 'nsgs-tewheke-workflow'
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       environment:
         description: 'The target environment for deployment (e.g., dev, test, prod)'
