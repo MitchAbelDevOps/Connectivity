@@ -36,12 +36,12 @@ on:
       sub_directory:
         description: "Sub-directory containing resource Terraform files"
         required: false
-        default: "rg-networking-tewheke/Infrastructure/ResourceGroup"
+        default: "rg-networking-tewheke/Infrastructure/ApplicationGateway"
         type: string
       terraform_state_filename:
         description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: "rg-networking-tewheke.tfstate"
+        default: "appgw-tewheke.tfstate"
         type: string
 
 jobs:
