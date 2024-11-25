@@ -31,6 +31,8 @@ module "vnet" {
   apimSubnetAddressPrefix            = var.apimSubnetAddressPrefix
   privateEndpointSubnetAddressPrefix = var.privateEndpointSubnetAddressPrefix
   appsSubnetAddressPrefix            = var.appsSubnetAddressPrefix
+
+  depends_on = [ module.nsg ]
 }
 
 module "private_dns_zone" {
@@ -39,6 +41,8 @@ module "private_dns_zone" {
   locationSuffix = var.locationSuffix
   resourceSuffix = var.resourceSuffix
   environment    = var.environment
+
+  depends_on = [ module.vnet ]
 }
 
 // Always do App Gateway seperate as it requires things from shared infra i.e. KeyVault and APIM
