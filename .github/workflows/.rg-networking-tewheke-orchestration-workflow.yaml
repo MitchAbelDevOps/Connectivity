@@ -30,6 +30,7 @@ jobs:
       root_directory: 'rg-networking-tewheke/Infrastructure'
       sub_directory: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
+    needs: deploy_resource_group  # Ensures this job runs after deploy_resource_group
 
   deploy_vnet:
     permissions:
@@ -41,6 +42,7 @@ jobs:
       root_directory: 'rg-networking-tewheke/Infrastructure'
       sub_directory: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
+    needs: deploy_nsgs  # Ensures this job runs after deploy_nsgs
 
   deploy_dns_zone:
     permissions:
@@ -52,6 +54,7 @@ jobs:
       root_directory: 'rg-networking-tewheke/Infrastructure'
       sub_directory: 'rg-networking-tewheke/Infrastructure/PrivateDNSZone'
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
+    needs: deploy_vnet  # Ensures this job runs after deploy_vnet
 
   # deploy_app_gateway:
   #   permissions:
@@ -63,3 +66,4 @@ jobs:
   #     root_directory: 'rg-networking-tewheke/Infrastructure'
   #     sub_directory: 'rg-networking-tewheke/Infrastructure/ApplicationGateway'
   #     terraform_state_filename: 'rg-networking-tewheke.tfstate'
+  #   needs: deploy_dns_zone  # Ensures this job runs after deploy_dns_zone
