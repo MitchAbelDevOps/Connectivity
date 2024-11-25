@@ -1,26 +1,47 @@
-name: 'infra-rg-networking-tewheke-workflow'
+name: "infra-rg-networking-tewheke-workflow"
 
 on:
   workflow_call:
     inputs:
       environment:
-        description: 'The target environment for deployment (e.g., dev, test, prod)'
+        description: "The target environment for deployment (e.g., dev, test, prod)"
         required: true
         type: string
       root_directory:
-        description: 'Root directory where Terraform config is located'
+        description: "Root directory where Terraform config is located"
         required: false
-        default: 'rg-networking-tewheke/Infrastructure'
+        default: "rg-networking-tewheke/Infrastructure"
         type: string
       sub_directory:
-        description: 'Sub-directory containing resource Terraform files'
+        description: "Sub-directory containing resource Terraform files"
         required: false
-        default: 'rg-networking-tewheke/Infrastructure/ResourceGroup'
+        default: "rg-networking-tewheke/Infrastructure/ResourceGroup"
         type: string
       terraform_state_filename:
-        description: 'Name for the tfstate blob to create for this resource'
+        description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: 'rg-networking-tewheke.tfstate'
+        default: "rg-networking-tewheke.tfstate"
+        type: string
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The target environment for deployment (e.g., dev, test, prod)"
+        required: true
+        type: string
+      root_directory:
+        description: "Root directory where Terraform config is located"
+        required: false
+        default: "rg-networking-tewheke/Infrastructure"
+        type: string
+      sub_directory:
+        description: "Sub-directory containing resource Terraform files"
+        required: false
+        default: "rg-networking-tewheke/Infrastructure/ResourceGroup"
+        type: string
+      terraform_state_filename:
+        description: "Name for the tfstate blob to create for this resource"
+        required: false
+        default: "rg-networking-tewheke.tfstate"
         type: string
 
 jobs:
@@ -29,10 +50,10 @@ jobs:
     if: ${{ inputs.environment == 'dev' }}
     permissions:
       id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
+      contents: read # To access repository files if needed
     uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
-      environment: 'dev'
+      environment: "dev"
       root_directory: ${{ inputs.root_directory }}
       sub_directory: ${{ inputs.sub_directory }}
       terraform_state_filename: ${{  inputs.terraform_state_filename }}

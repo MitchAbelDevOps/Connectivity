@@ -4,23 +4,44 @@ on:
   workflow_call:
     inputs:
       environment:
-        description: 'The target environment for deployment (e.g., dev, test, prod)'
+        description: "The target environment for deployment (e.g., dev, test, prod)"
         required: true
         type: string
       root_directory:
-        description: 'Root directory where Terraform config is located'
+        description: "Root directory where Terraform config is located"
         required: false
-        default: 'rg-networking-tewheke/Infrastructure'
+        default: "rg-networking-tewheke/Infrastructure"
         type: string
       sub_directory:
-        description: 'Sub-directory containing resource Terraform files'
+        description: "Sub-directory containing resource Terraform files"
         required: false
-        default: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
+        default: "rg-networking-tewheke/Infrastructure/VirtualNetwork"
         type: string
       terraform_state_filename:
-        description: 'Name for the tfstate blob to create for this resource'
+        description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: 'vnet-tewheke.tfstate'
+        default: "vnet-tewheke.tfstate"
+        type: string
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The target environment for deployment (e.g., dev, test, prod)"
+        required: true
+        type: string
+      root_directory:
+        description: "Root directory where Terraform config is located"
+        required: false
+        default: "rg-networking-tewheke/Infrastructure"
+        type: string
+      sub_directory:
+        description: "Sub-directory containing resource Terraform files"
+        required: false
+        default: "rg-networking-tewheke/Infrastructure/ResourceGroup"
+        type: string
+      terraform_state_filename:
+        description: "Name for the tfstate blob to create for this resource"
+        required: false
+        default: "rg-networking-tewheke.tfstate"
         type: string
 
 jobs:
