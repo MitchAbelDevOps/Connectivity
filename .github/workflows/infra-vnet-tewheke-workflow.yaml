@@ -64,15 +64,15 @@ jobs:
   #     sub_directory: ${{ inputs.sub_directory }}
   #     terraform_state_filename: ${{ inputs.terraform_state_filename }}
 
-  # # UAT Environment
-  # uat:
-  #   if: ${{ inputs.environment == 'uat' }}
+  # # Pre-Prod Environment
+  # pprod:
+  #   if: ${{ inputs.environment == 'pprod' }}
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
-  #     environment: 'uat'
+  #     environment: 'pprod'
   #     root_directory: ${{ inputs.root_directory }}
   #     sub_directory: ${{ inputs.sub_directory }}
   #     terraform_state_filename: ${{ inputs.terraform_state_filename }}
