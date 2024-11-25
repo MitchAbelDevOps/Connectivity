@@ -10,6 +10,9 @@ on:
 
 jobs:
   deploy_resource_group:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
     uses: ./.github/workflows/rg-networking-tewheke.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
@@ -18,6 +21,9 @@ jobs:
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
   deploy_nsgs:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
     uses: ./.github/workflows/nsgs-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
@@ -26,6 +32,9 @@ jobs:
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
   deploy_vnet:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
     uses: ./.github/workflows/vnet-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
@@ -34,6 +43,9 @@ jobs:
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
   deploy_dns_zone:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
     uses: ./.github/workflows/privatednszones-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
@@ -42,6 +54,9 @@ jobs:
       terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
   # deploy_app_gateway:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
   #   uses: ./.github/workflows/appgw-tewheke-workflow.yaml
   #   with:
   #     environment: ${{ github.event.inputs.environment }}
