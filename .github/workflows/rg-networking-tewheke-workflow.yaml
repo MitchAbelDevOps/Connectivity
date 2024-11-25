@@ -1,4 +1,4 @@
-name: 'vnet-tewheke-workflow'
+name: 'rg-networking-tewheke-workflow'
 
 on:
   workflow_dispatch:
