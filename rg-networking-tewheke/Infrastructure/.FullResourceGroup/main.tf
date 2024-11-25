@@ -1,9 +1,9 @@
 /**************************************************
 New Resources
 ***************************************************/
-// Create RG if it does not already exist
+// Create RG
 resource "azurerm_resource_group" "resourceGroup" {
-  name = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name = local.fullResourceGroupName
   location = var.location
 }
 
