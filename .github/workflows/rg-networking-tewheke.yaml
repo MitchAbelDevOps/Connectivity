@@ -33,9 +33,9 @@ jobs:
     uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: 'dev'
-      root_directory: ${{ github.event.inputs.root_directory }}
-      sub_directory: ${{ github.event.inputs.sub_directory }}
-      terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+      root_directory: ${{ inputs.root_directory }}
+      sub_directory: ${{ inputs.sub_directory }}
+      terraform_state_filename: ${{  inputs.terraform_state_filename }}
     secrets: inherit
 
   # # Test Environment
@@ -47,9 +47,9 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'test'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
 
   # # Staging Environment
   # staging:
@@ -60,9 +60,9 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'staging'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
 
   # # UAT Environment
   # uat:
@@ -73,9 +73,9 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'uat'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
   # # Prod Environment
   # prod:
   #   if: ${{ inputs.environment == 'prod' }}
@@ -85,6 +85,6 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'prod'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  #     root_directory: ${{ inputs.root_directory }}
+  #     sub_directory: ${{ inputs.sub_directory }}
+  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
