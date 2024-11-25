@@ -3,79 +3,57 @@ name: 'rg-networking-tewheke-orchestration-workflow'
 on:
   workflow_dispatch:
     inputs:
-      root_directory:
-        description: 'Root directory where Terraform config is located'
-        required: false
-        default: 'rg-networking-tewheke/Infrastructure'
+      environment:
+        description: 'The target environment for deployment (e.g., dev, test, prod)'
+        required: true
         type: string
-      sub_directory:
-        description: 'Sub-directory containing resource Terraform files'
+      branch:
+        description: 'Branch to use for reusable workflows (default: main)'
         required: false
-        default: 'rg-networking-tewheke/Infrastructure/.FullResourceGroup'
-        type: string
-      terraform_state_filename:
-        description: 'Name for the tfstate blob to create for this resource'
-        required: false
-        default: 'rg-networking-tewheke.tfstate'
-        type: string
+        default: 'develop'
 
 jobs:
-  # Dev Environment
-  dev:
-    permissions:
-      id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  deploy_resource_group:
+    uses: MitchAbelDevOps/DevOps/.github/workflows/rg-networking-tewheke.yaml@${{ github.event.inputs.branch }}
     with:
-      environment: 'dev'
-      root_directory: ${{ github.event.inputs.root_directory }}
-      sub_directory: ${{ github.event.inputs.sub_directory }}
-      terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/ResourceGroup'
+      terraform_state_filename: 'rg-networking-tewheke.tfstate'
     secrets: inherit
 
-  # # Test Environment
-  # test:
-  #   permissions:
-  #     id-token: write # Required for OIDC authentication
-  #     contents: read  # To access repository files if needed
-  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
-  #   with:
-  #     environment: 'test'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  deploy_nsgs:
+    uses: MitchAbelDevOps/DevOps/.github/workflows/nsgs-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
+      terraform_state_filename: 'nsgs-tewheke.tfstate'
+    secrets: inherit
 
-  # # Staging Environment
-  # staging:
-  #   permissions:
-  #     id-token: write # Required for OIDC authentication
-  #     contents: read  # To access repository files if needed
-  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
-  #   with:
-  #     environment: 'staging'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  deploy_vnet:
+    uses: MitchAbelDevOps/DevOps/.github/workflows/vnet-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
+      terraform_state_filename: 'vnet-tewheke.tfstate'
+    secrets: inherit
 
-  # # UAT Environment
-  # uat:
-  #   permissions:
-  #     id-token: write # Required for OIDC authentication
-  #     contents: read  # To access repository files if needed
-  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
-  #   with:
-  #     environment: 'uat'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
-  # # Prod Environment
-  # prod:
-  #   permissions:
-  #     id-token: write # Required for OIDC authentication
-  #     contents: read  # To access repository files if needed
-  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
-  #   with:
-  #     environment: 'prod'
-  #     root_directory: ${{ github.event.inputs.root_directory }}
-  #     sub_directory: ${{ github.event.inputs.sub_directory }}
-  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  deploy_appgw:
+    uses: MitchAbelDevOps/DevOps/.github/workflows/appgw-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/ApplicationGateway'
+      terraform_state_filename: 'appgw-tewheke.tfstate'
+    secrets: inherit
+
+  deploy_privatednszones:
+    uses: MitchAbelDevOps/DevOps/.github/workflows/privatednszones-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/PrivateDNSZone'
+      terraform_state_filename: 'privatednszones-tewheke.tfstate'
+    secrets: inherit

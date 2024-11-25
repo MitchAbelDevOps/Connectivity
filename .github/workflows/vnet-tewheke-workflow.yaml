@@ -22,6 +22,7 @@ on:
 jobs:
   # Dev Environment
   dev:
+    if: ${{ inputs.environment == 'dev' }}
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
@@ -35,6 +36,7 @@ jobs:
 
   # # Test Environment
   # test:
+  #   if: ${{ inputs.environment == 'test' }}
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
@@ -47,6 +49,7 @@ jobs:
 
   # # Staging Environment
   # staging:
+  #   if: ${{ inputs.environment == 'stg' }}
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
@@ -59,6 +62,7 @@ jobs:
 
   # # UAT Environment
   # uat:
+  #   if: ${{ inputs.environment == 'uat' }}
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
@@ -70,6 +74,7 @@ jobs:
   #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
   # # Prod Environment
   # prod:
+  #   if: ${{ inputs.environment == 'prod' }}
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
