@@ -1,0 +1,81 @@
+name: 'vnet-tewheke-workflow'
+
+on:
+  workflow_dispatch:
+    inputs:
+      root_directory:
+        description: 'Root directory where Terraform config is located'
+        required: false
+        default: 'rg-networking-tewheke/Infrastructure'
+        type: string
+      sub_directory:
+        description: 'Sub-directory containing resource Terraform files'
+        required: false
+        default: 'rg-networking-tewheke/Infrastructure/.FullResourceGroup'
+        type: string
+      terraform_state_filename:
+        description: 'Name for the tfstate blob to create for this resource'
+        required: false
+        default: 'rg-networking-tewheke.tfstate'
+        type: string
+
+jobs:
+  # Dev Environment
+  dev:
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # To access repository files if needed
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+    with:
+      environment: 'dev'
+      root_directory: ${{ github.event.inputs.root_directory }}
+      sub_directory: ${{ github.event.inputs.sub_directory }}
+      terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+    secrets: inherit
+
+  # # Test Environment
+  # test:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'test'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+
+  # # Staging Environment
+  # staging:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'staging'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+
+  # # UAT Environment
+  # uat:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'uat'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  # # Prod Environment
+  # prod:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'prod'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
