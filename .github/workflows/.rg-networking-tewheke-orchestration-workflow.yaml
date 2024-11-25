@@ -4,56 +4,36 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'The target environment for deployment (e.g., dev, test, prod)'
+        description: 'The environment to deploy (e.g., dev, test, prod)'
         required: true
         type: string
-      branch:
-        description: 'Branch to use for reusable workflows (default: main)'
-        required: false
-        default: 'develop'
 
 jobs:
-  deploy_resource_group:
-    uses: MitchAbelDevOps/DevOps/.github/workflows/rg-networking-tewheke.yaml@${{ github.event.inputs.branch }}
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/ResourceGroup'
-      terraform_state_filename: 'rg-networking-tewheke.tfstate'
-    secrets: inherit
+  orchestrate:
+    runs-on: ubuntu-latest
 
-  deploy_nsgs:
-    uses: MitchAbelDevOps/DevOps/.github/workflows/nsgs-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
-      terraform_state_filename: 'nsgs-tewheke.tfstate'
-    secrets: inherit
+    steps:
+      - name: Trigger RG Networking Workflow
+        uses: ./.github/workflows/rg-networking-tewheke.yaml
+        with:
+          environment: ${{ github.event.inputs.environment }}
 
-  deploy_vnet:
-    uses: MitchAbelDevOps/DevOps/.github/workflows/vnet-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
-      terraform_state_filename: 'vnet-tewheke.tfstate'
-    secrets: inherit
+      - name: Trigger NSG Workflow
+        uses: ./.github/workflows/nsgs-tewheke-workflow.yaml
+        with:
+          environment: ${{ github.event.inputs.environment }}
 
-  deploy_appgw:
-    uses: MitchAbelDevOps/DevOps/.github/workflows/appgw-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/ApplicationGateway'
-      terraform_state_filename: 'appgw-tewheke.tfstate'
-    secrets: inherit
+      - name: Trigger VNET Workflow
+        uses: ./.github/workflows/vnet-tewheke-workflow.yaml
+        with:
+          environment: ${{ github.event.inputs.environment }}
 
-  deploy_privatednszones:
-    uses: MitchAbelDevOps/DevOps/.github/workflows/privatednszones-tewheke-workflow.yaml@${{ github.event.inputs.branch }}
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/PrivateDNSZone'
-      terraform_state_filename: 'privatednszones-tewheke.tfstate'
-    secrets: inherit
+      - name: Trigger App Gateway Workflow
+        uses: ./.github/workflows/appgw-tewheke-workflow.yaml
+        with:
+          environment: ${{ github.event.inputs.environment }}
+
+      - name: Trigger Private DNS Zones Workflow
+        uses: ./.github/workflows/privatednszones-tewheke-workflow.yaml
+        with:
+          environment: ${{ github.event.inputs.environment }}
