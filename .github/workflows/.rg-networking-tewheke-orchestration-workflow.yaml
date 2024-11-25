@@ -1,4 +1,4 @@
-name: '.rg-networking-tewheke-orchestration-workflow'
+name: 'rg-networking-tewheke-orchestration-workflow'
 
 on:
   workflow_dispatch:
@@ -9,31 +9,42 @@ on:
         type: string
 
 jobs:
-  orchestrate:
-    runs-on: ubuntu-latest
+  deploy_resource_group:
+    uses: ./.github/workflows/rg-networking-tewheke.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/ResourceGroup'
+      terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
-    steps:
-      - name: Trigger RG Networking Workflow
-        uses: ./.github/workflows/rg-networking-tewheke.yaml
-        with:
-          environment: ${{ github.event.inputs.environment }}
+  deploy_nsgs:
+    uses: ./.github/workflows/nsgs-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
+      terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
-      - name: Trigger NSG Workflow
-        uses: ./.github/workflows/nsgs-tewheke-workflow.yaml
-        with:
-          environment: ${{ github.event.inputs.environment }}
+  deploy_vnet:
+    uses: ./.github/workflows/vnet-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
+      terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
-      - name: Trigger VNET Workflow
-        uses: ./.github/workflows/vnet-tewheke-workflow.yaml
-        with:
-          environment: ${{ github.event.inputs.environment }}
+  deploy_dns_zone:
+    uses: ./.github/workflows/privatednszones-tewheke-workflow.yaml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      root_directory: 'rg-networking-tewheke/Infrastructure'
+      sub_directory: 'rg-networking-tewheke/Infrastructure/PrivateDNSZone'
+      terraform_state_filename: 'rg-networking-tewheke.tfstate'
 
-      - name: Trigger App Gateway Workflow
-        uses: ./.github/workflows/appgw-tewheke-workflow.yaml
-        with:
-          environment: ${{ github.event.inputs.environment }}
-
-      - name: Trigger Private DNS Zones Workflow
-        uses: ./.github/workflows/privatednszones-tewheke-workflow.yaml
-        with:
-          environment: ${{ github.event.inputs.environment }}
+  # deploy_app_gateway:
+  #   uses: ./.github/workflows/appgw-tewheke-workflow.yaml
+  #   with:
+  #     environment: ${{ github.event.inputs.environment }}
+  #     root_directory: 'rg-networking-tewheke/Infrastructure'
+  #     sub_directory: 'rg-networking-tewheke/Infrastructure/ApplicationGateway'
+  #     terraform_state_filename: 'rg-networking-tewheke.tfstate'
