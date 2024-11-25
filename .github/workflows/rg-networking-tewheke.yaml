@@ -1,4 +1,4 @@
-name: 'nsgs-tewheke-workflow'
+name: 'rg-networking-tewheke-workflow'
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: 'rg-networking-tewheke-workflow'
+name: 'rg-networking-tewheke-orchestration-workflow'
 
 on:
   workflow_dispatch:
