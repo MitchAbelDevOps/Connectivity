@@ -13,7 +13,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
-    uses: ./.github/workflows/infra-rg-networking-tewheke.yaml
+    uses: ./.github/workflows/infra-rg-networking-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
     secrets: inherit
