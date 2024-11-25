@@ -6,6 +6,11 @@ variable "location" {
   description = "The Azure location in which the deployment is happening"
 }
 
+variable "locationSuffix" {
+  type        = string
+  description = "The Azure location in which the deployment is happening"
+}
+
 variable "resourceSuffix" {
   type        = string
   description = "A suffix for naming"
@@ -15,6 +20,7 @@ variable "environment" {
   type        = string
   description = "Environment"
 }
+
 /**************************************************
 Existing Resource Variables
 ***************************************************/
@@ -29,8 +35,12 @@ New Resource Variables
 ***************************************************/
 variable "resourceGroupName" {
   type        = string
-  description = "The name of the resource group"
+  description = "The name of the resource group to deploy to"
   default     = "rg-networking"
+}
+
+locals {
+  fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 variable "appGatewayFqdn" {

@@ -3,22 +3,22 @@ Existing Resources
 ***************************************************/
 data "azurerm_network_security_group" "appgateway_nsg" {
   name                = "nsg-apgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 }
 
 data "azurerm_network_security_group" "runners_nsg" {
   name                = "nsg-runners-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 }
 
 data "azurerm_network_security_group" "apim_nsg" {
   name                = "nsg-apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 }
 
 data "azurerm_network_security_group" "private_endpoint_nsg" {
   name                = "nsg-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
 }
 
 /**************************************************
@@ -28,7 +28,7 @@ New Resources
 resource "azurerm_virtual_network" "vnet_integration" {
   name                = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
   location            = var.location
-  resource_group_name = var.resourceGroupName
+  resource_group_name = local.fullResourceGroupName
   address_space       = var.integrationVNETAddressSpace
 
   lifecycle {
@@ -39,7 +39,7 @@ resource "azurerm_virtual_network" "vnet_integration" {
 // Subnets and NSG associations
 resource "azurerm_subnet" "appgateway_subnet" {
   name                 = "snet-apgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name  = var.resourceGroupName
+  resource_group_name  = local.fullResourceGroupName
   virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.appGatewaySubnetAddressPrefix
 
@@ -59,7 +59,7 @@ resource "azurerm_subnet_network_security_group_association" "appgateway_subnet"
 
 resource "azurerm_subnet" "runners_subnet" {
   name                 = "snet-runners-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name  = var.resourceGroupName
+  resource_group_name  = local.fullResourceGroupName
   virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.gitHubRunnersSubnetAddressPrefix
 
@@ -79,7 +79,7 @@ resource "azurerm_subnet_network_security_group_association" "runners_subnet" {
 
 resource "azurerm_subnet" "apim_subnet" {
   name                 = "snet-apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name  = var.resourceGroupName
+  resource_group_name  = local.fullResourceGroupName
   virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.apimSubnetAddressPrefix
 
@@ -99,7 +99,7 @@ resource "azurerm_subnet_network_security_group_association" "apim_subnet" {
 
 resource "azurerm_subnet" "private_endpoint_subnet" {
   name                 = "snet-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name  = var.resourceGroupName
+  resource_group_name  = local.fullResourceGroupName
   virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.privateEndpointSubnetAddressPrefix
 
@@ -120,7 +120,7 @@ resource "azurerm_subnet_network_security_group_association" "private_endpoint_s
 //TODO add an NSG for the apps subnet
 resource "azurerm_subnet" "deploy_subnet" {
   name                 = "snet-apps-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name  = var.resourceGroupName
+  resource_group_name  = local.fullResourceGroupName
   virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.appsSubnetAddressPrefix
 
