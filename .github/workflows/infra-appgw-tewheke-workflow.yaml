@@ -1,4 +1,4 @@
-name: 'appgw-tewheke-workflow'
+name: 'infra-appgw-tewheke-workflow'
 
 on:
   workflow_call:

@@ -1,4 +1,4 @@
-name: '.rg-networking-tewheke-orchestration-workflow'
+name: '.infra-rg-networking-tewheke-orchestration-workflow'
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
-    uses: ./.github/workflows/rg-networking-tewheke.yaml
+    uses: ./.github/workflows/infra-rg-networking-tewheke.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
     secrets: inherit
@@ -22,7 +22,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
-    uses: ./.github/workflows/nsgs-tewheke-workflow.yaml
+    uses: ./.github/workflows/infra-nsgs-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
     needs: deploy_resource_group  # Ensures this job runs after deploy_resource_group
@@ -32,7 +32,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
-    uses: ./.github/workflows/vnet-tewheke-workflow.yaml
+    uses: ./.github/workflows/infra-vnet-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
     needs: deploy_nsgs  # Ensures this job runs after deploy_nsgs
@@ -42,7 +42,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
-    uses: ./.github/workflows/privatednszones-tewheke-workflow.yaml
+    uses: ./.github/workflows/infra-privatednszones-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
     needs: deploy_vnet  # Ensures this job runs after deploy_vnet
@@ -52,7 +52,7 @@ jobs:
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
-  #   uses: ./.github/workflows/appgw-tewheke-workflow.yaml
+  #   uses: ./.github/workflows/infra-appgw-tewheke-workflow.yaml
   #   with:
   #     environment: ${{ github.event.inputs.environment }}
   #   needs: deploy_dns_zone  # Ensures this job runs after deploy_dns_zone

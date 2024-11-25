@@ -1,4 +1,4 @@
-name: 'rg-networking-tewheke-workflow'
+name: 'infra-rg-networking-tewheke-workflow'
 
 on:
   workflow_call:

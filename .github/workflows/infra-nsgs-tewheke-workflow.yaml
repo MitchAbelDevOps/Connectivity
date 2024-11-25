@@ -1,4 +1,4 @@
-name: 'vnet-tewheke-workflow'
+name: 'infra-nsgs-tewheke-workflow'
 
 on:
   workflow_call:
@@ -15,12 +15,12 @@ on:
       sub_directory:
         description: 'Sub-directory containing resource Terraform files'
         required: false
-        default: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
+        default: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
         type: string
       terraform_state_filename:
         description: 'Name for the tfstate blob to create for this resource'
         required: false
-        default: 'vnet-tewheke.tfstate'
+        default: 'nsgs-tewheke.tfstate'
         type: string
 
 jobs:
