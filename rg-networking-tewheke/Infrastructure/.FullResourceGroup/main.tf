@@ -38,10 +38,10 @@ module "private_dns_zone" {
 }
 
 // Always do App Gateway seperate as it requires things from shared infra i.e. KeyVault and APIM
-module "app_gateway" {
-  source                        = "./Application Gateway"
-  resourceSuffix                = var.resourceSuffix
-  environment                   = var.environment
-  location                      = var.location
-  appGatewayFqdn                = var.appGatewayFqdn
-}
+# module "app_gateway" {
+#   source                        = "./Application Gateway"
+#   resourceSuffix                = var.resourceSuffix
+#   environment                   = var.environment
+#   location                      = var.location
+#   appGatewayFqdn                = var.appGatewayFqdn
+# }
