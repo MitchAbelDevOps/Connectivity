@@ -1,27 +1,23 @@
-name: 'infra-vnet-tewheke-workflow'
+name: "infra-vnet-tewheke-workflow"
 
 on:
   workflow_call:
     inputs:
       environment:
-        description: 'The target environment for deployment (e.g., dev, test, prod)'
+        description: "The target environment for deployment (e.g., dev, test, prod)"
         required: true
         type: string
-      root_directory:
-        description: 'Root directory where Terraform config is located'
-        required: false
-        default: 'rg-networking-tewheke/Infrastructure'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The target environment for deployment (e.g., dev, test, prod)"
+        required: true
         type: string
-      sub_directory:
-        description: 'Sub-directory containing resource Terraform files'
-        required: false
-        default: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
-        type: string
-      terraform_state_filename:
-        description: 'Name for the tfstate blob to create for this resource'
-        required: false
-        default: 'vnet-tewheke.tfstate'
-        type: string
+
+env:
+  root_directory: "rg-networking-tewheke/Infrastructure"
+  sub_directory: "rg-networking-tewheke/Infrastructure/VirtualNetwork"
+  terraform_state_filename: "vnet-tewheke.tfstate"
 
 jobs:
   # Dev Environment
@@ -29,13 +25,13 @@ jobs:
     if: ${{ inputs.environment == 'dev' }}
     permissions:
       id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
+      contents: read # To access repository files if needed
     uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
-      environment: 'dev'
-      root_directory: ${{ inputs.root_directory }}
-      sub_directory: ${{ inputs.sub_directory }}
-      terraform_state_filename: ${{  inputs.terraform_state_filename }}
+      environment: "dev"
+      root_directory: ${{ env.root_directory }}
+      sub_directory: ${{ env.sub_directory }}
+      terraform_state_filename: ${{ env.terraform_state_filename }}
     secrets: inherit
 
   # # Test Environment
@@ -47,9 +43,9 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'test'
-  #     root_directory: ${{ inputs.root_directory }}
-  #     sub_directory: ${{ inputs.sub_directory }}
-  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     root_directory: ${{ env.root_directory }}
+  #     sub_directory: ${{ env.sub_directory }}
+  #     terraform_state_filename: ${{ env.terraform_state_filename }}
 
   # # Staging Environment
   # staging:
@@ -60,9 +56,9 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'staging'
-  #     root_directory: ${{ inputs.root_directory }}
-  #     sub_directory: ${{ inputs.sub_directory }}
-  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     root_directory: ${{ env.root_directory }}
+  #     sub_directory: ${{ env.sub_directory }}
+  #     terraform_state_filename: ${{ env.terraform_state_filename }}
 
   # # UAT Environment
   # uat:
@@ -73,9 +69,9 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'uat'
-  #     root_directory: ${{ inputs.root_directory }}
-  #     sub_directory: ${{ inputs.sub_directory }}
-  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     root_directory: ${{ env.root_directory }}
+  #     sub_directory: ${{ env.sub_directory }}
+  #     terraform_state_filename: ${{ env.terraform_state_filename }}
   # # Prod Environment
   # prod:
   #   if: ${{ inputs.environment == 'prod' }}
@@ -85,6 +81,6 @@ jobs:
   #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
   #   with:
   #     environment: 'prod'
-  #     root_directory: ${{ inputs.root_directory }}
-  #     sub_directory: ${{ inputs.sub_directory }}
-  #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     root_directory: ${{ env.root_directory }}
+  #     sub_directory: ${{ env.sub_directory }}
+  #     terraform_state_filename: ${{ env.terraform_state_filename }}
