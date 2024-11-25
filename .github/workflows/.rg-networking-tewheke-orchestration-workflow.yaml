@@ -16,9 +16,6 @@ jobs:
     uses: ./.github/workflows/rg-networking-tewheke.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/ResourceGroup'
-      terraform_state_filename: 'rg-networking-tewheke.tfstate'
     secrets: inherit
 
   deploy_nsgs:
@@ -28,9 +25,6 @@ jobs:
     uses: ./.github/workflows/nsgs-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
-      terraform_state_filename: 'rg-networking-tewheke.tfstate'
     needs: deploy_resource_group  # Ensures this job runs after deploy_resource_group
     secrets: inherit
 
@@ -41,9 +35,6 @@ jobs:
     uses: ./.github/workflows/vnet-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/VirtualNetwork'
-      terraform_state_filename: 'rg-networking-tewheke.tfstate'
     needs: deploy_nsgs  # Ensures this job runs after deploy_nsgs
     secrets: inherit
 
@@ -54,9 +45,6 @@ jobs:
     uses: ./.github/workflows/privatednszones-tewheke-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-      root_directory: 'rg-networking-tewheke/Infrastructure'
-      sub_directory: 'rg-networking-tewheke/Infrastructure/PrivateDNSZone'
-      terraform_state_filename: 'rg-networking-tewheke.tfstate'
     needs: deploy_vnet  # Ensures this job runs after deploy_vnet
     secrets: inherit
 
@@ -67,8 +55,5 @@ jobs:
   #   uses: ./.github/workflows/appgw-tewheke-workflow.yaml
   #   with:
   #     environment: ${{ github.event.inputs.environment }}
-  #     root_directory: 'rg-networking-tewheke/Infrastructure'
-  #     sub_directory: 'rg-networking-tewheke/Infrastructure/ApplicationGateway'
-  #     terraform_state_filename: 'rg-networking-tewheke.tfstate'
   #   needs: deploy_dns_zone  # Ensures this job runs after deploy_dns_zone
   #   secrets: inherit
