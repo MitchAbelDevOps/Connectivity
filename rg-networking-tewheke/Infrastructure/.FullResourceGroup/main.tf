@@ -16,7 +16,8 @@ module "nsg" {
   locationSuffix = var.locationSuffix
   resourceSuffix = var.resourceSuffix
   environment    = var.environment
-  
+
+  depends_on = [ azurerm_resource_group.resourceGroup ]
 }
 
 module "vnet" {
