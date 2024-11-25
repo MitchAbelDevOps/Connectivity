@@ -12,16 +12,19 @@ Module Calls
 ***************************************************/
 module "nsg" {
   source         = "./NetworkSecurityGroup"
+  location       = var.location
+  locationSuffix = var.locationSuffix
   resourceSuffix = var.resourceSuffix
   environment    = var.environment
-  location       = var.location
+  
 }
 
 module "vnet" {
   source                             = "./VirtualNetwork"
-  resourceSuffix                     = var.resourceSuffix
-  environment                        = var.environment
-  location                           = var.location
+  location       = var.location
+  locationSuffix = var.locationSuffix
+  resourceSuffix = var.resourceSuffix
+  environment    = var.environment
   integrationVNETAddressSpace        = var.integrationVNETAddressSpace
   appGatewaySubnetAddressPrefix      = var.appGatewaySubnetAddressPrefix
   gitHubRunnersSubnetAddressPrefix   = var.gitHubRunnersSubnetAddressPrefix
@@ -32,9 +35,10 @@ module "vnet" {
 
 module "private_dns_zone" {
   source         = "./PrivateDNSZone"
+  location       = var.location
+  locationSuffix = var.locationSuffix
   resourceSuffix = var.resourceSuffix
   environment    = var.environment
-  location       = var.location
 }
 
 // Always do App Gateway seperate as it requires things from shared infra i.e. KeyVault and APIM
