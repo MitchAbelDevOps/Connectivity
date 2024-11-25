@@ -11,14 +11,14 @@ resource "azurerm_resource_group" "resourceGroup" {
 Module Calls
 ***************************************************/
 module "nsg" {
-  source         = "./Network Security Group"
+  source         = "./NetworkSecurityGroup"
   resourceSuffix = var.resourceSuffix
   environment    = var.environment
   location       = var.location
 }
 
 module "vnet" {
-  source                             = "./Virtual Network"
+  source                             = "./VirtualNetwork"
   resourceSuffix                     = var.resourceSuffix
   environment                        = var.environment
   location                           = var.location
@@ -31,7 +31,7 @@ module "vnet" {
 }
 
 module "private_dns_zone" {
-  source         = "./Private DNS Zone"
+  source         = "./PrivateDNSZone"
   resourceSuffix = var.resourceSuffix
   environment    = var.environment
   location       = var.location
