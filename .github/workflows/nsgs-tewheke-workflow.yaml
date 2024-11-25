@@ -1,115 +1,81 @@
 name: 'nsgs-tewheke-workflow'
 
 on:
-  workflow_dispatch: # Trigger manually via GitHub Actions interface
+  workflow_dispatch:
+    inputs:
+      root_directory:
+        description: 'Root directory where Terraform config is located'
+        required: false
+        default: 'rg-networking-tewheke/Infrastructure'
+        type: string
+      sub_directory:
+        description: 'Sub-directory containing resource Terraform files'
+        required: false
+        default: 'rg-networking-tewheke/Infrastructure/NetworkSecurityGroup'
+        type: string
+      terraform_state_filename:
+        description: 'Name for the tfstate blob to create for this resource'
+        required: false
+        default: 'nsgs-tewheke.tfstate'
+        type: string
 
 jobs:
+  # Dev Environment
   dev:
-    name: 'Development'
-    runs-on: ubuntu-latest
-    environment: dev
-
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read  # To access repository files if needed
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+    with:
+      environment: 'dev'
+      root_directory: ${{ github.event.inputs.root_directory }}
+      sub_directory: ${{ github.event.inputs.sub_directory }}
+      terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+    secrets: inherit
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
+  # # Test Environment
+  # test:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'test'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v4
+  # # Staging Environment
+  # staging:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'staging'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
 
-    # Copy Specific Files to Root Directory
-    # TODO make file path a param
-    - name: Prepare Terraform Files
-      run: |
-        cp rg-networking-tewheke/Infrastructure/Network\ Security\ Group/main.tf rg-networking-tewheke/Infrastructure/
-        cp rg-networking-tewheke/Infrastructure/Network\ Security\ Group/variables.tf rg-networking-tewheke/Infrastructure/
-        cp rg-networking-tewheke/Infrastructure/Network\ Security\ Group/Variables/dev.tfvars rg-networking-tewheke/Infrastructure/dev.tfvars
-
-    # Login to Azure using OIDC
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-    # Retrieve Storage account key, change to MSI?
-    - name: Get Terraform Storage Account Key
-      id: get-key
-      uses: azure/cli@v2
-      with:
-        inlineScript: |
-          key=$(az storage account keys list -g "rg-integrationmanagement-aue" -n "saterraformstateauedev" --query [0].value -o tsv)
-          echo "TF_STORAGE_ACCOUNT_KEY=$key" >> $GITHUB_ENV
-
-    # Set environment variables dynamically
-    # TODO set these values from github env using ${{vars.varname}}?
-    - name: Set Environment Variables
-      run: | 
-        echo "TF_VAR_location=australiaeast" >> $GITHUB_ENV
-        echo "TF_VAR_locationSuffix=aue" >> $GITHUB_ENV
-        echo "TF_VAR_resourceSuffix=tewheke" >> $GITHUB_ENV
-        echo "TF_VAR_environment=dev" >> $GITHUB_ENV
-    
-    # Call the reusable workflow from the DevOps repository
-    - name: Call Terraform Init Workflow
-      uses: MitchAbelDevOps/DevOps/.github/workflows/terraform-init.yml@main
-      with:
-        terraform_version: '1.5.0'
-        storage_account_name: "saterraformstateauedev"
-        container_name: "terraform-state"
-        key: "nsgs-tewheke.tfstate"
-        access_key: "${{ env.TF_STORAGE_ACCOUNT_KEY }}"
-        working_directory: "rg-networking-tewheke/Infrastructure"
-
-    # # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    # - name: Install Terraform
-    #   uses: hashicorp/setup-terraform@v2
-    #   with:
-    #     terraform_version: '1.5.0'
-
-    # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    # # TODO make key a param
-    # - name: Terraform Init
-    #   run: |
-    #     terraform init \
-    #       -backend-config="storage_account_name=saterraformstateauedev" \
-    #       -backend-config="container_name=terraform-state" \
-    #       -backend-config="key=nsgs-tewheke.tfstate" \
-    #       -backend-config="access_key=${TF_STORAGE_ACCOUNT_KEY}"
-    #   working-directory: 'rg-networking-tewheke/Infrastructure'
-
-    # # Checks that all Terraform configuration files adhere to a canonical format
-    # - name: Terraform Format
-    #   run: terraform fmt -check
-
-    # Add TF Validate?
-
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: |
-        terraform plan \
-          -input=false \
-          -var-file="dev.tfvars" \
-          -out=deployment.tfplan
-      working-directory: 'rg-networking-tewheke/Infrastructure'
-
-    # Apply the generated execution plan
-    - name: Terraform Apply
-      run: |
-        terraform apply -input=false deployment.tfplan
-      working-directory: 'rg-networking-tewheke/Infrastructure'
-
-    # Clean Up Temporary Files
-    - name: Clean Up Terraform Files
-      if: always()
-      run: |
-        rm -f rg-networking-tewheke/Infrastructure/main.tf
-        rm -f rg-networking-tewheke/Infrastructure/variables.tf
-        rm -f rg-networking-tewheke/Infrastructure/dev.tfvars
+  # # UAT Environment
+  # uat:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'uat'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
+  # # Prod Environment
+  # prod:
+  #   permissions:
+  #     id-token: write # Required for OIDC authentication
+  #     contents: read  # To access repository files if needed
+  #   uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+  #   with:
+  #     environment: 'prod'
+  #     root_directory: ${{ github.event.inputs.root_directory }}
+  #     sub_directory: ${{ github.event.inputs.sub_directory }}
+  #     terraform_state_filename: ${{  github.event.inputs.terraform_state_filename }}
