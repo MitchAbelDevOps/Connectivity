@@ -3,6 +3,10 @@ name: 'rg-networking-tewheke-workflow'
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'The target environment for deployment (e.g., dev, test, prod)'
+        required: true
+        type: string
       root_directory:
         description: 'Root directory where Terraform config is located'
         required: false
