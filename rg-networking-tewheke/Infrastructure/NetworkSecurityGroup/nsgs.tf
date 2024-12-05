@@ -6,7 +6,7 @@ Existing Resources
 New Resources
 ***************************************************/
 resource "azurerm_network_security_group" "appgateway_nsg" {
-  name                = "nsg-apgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "nsg-${var.resourceSuffix}-${var.environment}-apgw-${var.locationSuffix}-01"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
 
@@ -63,7 +63,7 @@ resource "azurerm_network_security_group" "appgateway_nsg" {
 }
 
 resource "azurerm_network_security_group" "apim_nsg" {
-  name                = "nsg-apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "nsg-${var.resourceSuffix}-${var.environment}-apim-${var.locationSuffix}-01"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
 
@@ -145,7 +145,7 @@ resource "azurerm_network_security_group" "apim_nsg" {
 }
 
 resource "azurerm_network_security_group" "runners_nsg" {
-  name                = "nsg-runners-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}" 
+  name                = "nsg-${var.resourceSuffix}-${var.environment}-runners-${var.locationSuffix}-01" 
   location            = var.location
   resource_group_name = local.fullResourceGroupName
 
@@ -155,7 +155,7 @@ resource "azurerm_network_security_group" "runners_nsg" {
 }
 
 resource "azurerm_network_security_group" "private_endpoint_nsg" {
-  name                = "nsg-prep-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "nsg-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}-01"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
 

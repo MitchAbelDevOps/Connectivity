@@ -2,13 +2,13 @@
 Existing Resources
 ***************************************************/
 data "azurerm_subnet" "apgw_subnet" {
-  name                 = "snet-apgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                 = "snet-${var.resourceSuffix}-${var.environment}-apgw-${var.locationSuffix}-01"
   resource_group_name  = local.fullResourceGroupName
-  virtual_network_name = "vnet-apim-cs-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  virtual_network_name = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
 }
 
 data "azurerm_api_management" "apim_internal" {
-  name                = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = var.sharedResourceGroupName
 }
 
@@ -17,7 +17,7 @@ New Resources
 ***************************************************/
 // Public IP
 resource "azurerm_public_ip" "public_ip" {
-  name                = "pip-appgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "pip-${var.resourceSuffix}-${var.environment}-appgw-${var.locationSuffix}-01"
   resource_group_name = local.fullResourceGroupName
   location            = var.location
   sku                 = "Standard"
@@ -35,7 +35,7 @@ resource "azurerm_public_ip" "public_ip" {
 
 // App Gateway
 resource "azurerm_application_gateway" "app_gateway" {
-  name                = "appgw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "agw-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = local.fullResourceGroupName
   location            = var.location
 
