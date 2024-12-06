@@ -121,7 +121,7 @@ resource "azurerm_application_gateway" "app_gateway" {
     frontend_port_name             = "port_443"
     protocol                       = "Https"
     require_sni                    = false
-    ssl_certificate_name           = var.appGatewayFqdn
+    # ssl_certificate_name           = var.appGatewayFqdn
   }
 
   request_routing_rule {
