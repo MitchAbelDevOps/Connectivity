@@ -46,7 +46,7 @@ resource "azurerm_application_gateway" "app_gateway" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [data.azurerm_user_assigned_identity.keyvault_secret_reader]
+    identity_ids = [data.azurerm_user_assigned_identity.keyvault_secret_reader.id]
   }
 
   sku {
