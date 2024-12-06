@@ -8,7 +8,7 @@ data "azurerm_subnet" "apgw_subnet" {
 }
 
 data "azurerm_api_management" "apim_internal" {
-  name                = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
+  name                = "apim-mitchtest-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = "${var.sharedResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
