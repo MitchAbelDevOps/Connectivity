@@ -61,7 +61,7 @@ resource "azurerm_application_gateway" "app_gateway" {
 
   gateway_ip_configuration {
     name      = "appGatewayIpConfig"
-    subnet_id = azurerm_subnet.apgw_subnet.id
+    subnet_id = data.azurerm_subnet.apgw_subnet.id
   }
 
   frontend_ip_configuration {
@@ -101,7 +101,7 @@ resource "azurerm_application_gateway" "app_gateway" {
     port                                = 443
     protocol                            = "Https"
     cookie_based_affinity               = "Disabled"
-    host_name                           = azurerm_api_management.apim_internal.gateway_url
+    host_name                           = data.azurerm_api_management.apim_internal.gateway_url
     pick_host_name_from_backend_address = false
     request_timeout                     = 20
     probe_name                          = "APIM"
@@ -136,7 +136,7 @@ resource "azurerm_application_gateway" "app_gateway" {
   probe {
     name                                      = "APIM"
     protocol                                  = "Https"
-    host                                      = azurerm_api_management.apim_internal.gateway_url
+    host                                      = data.azurerm_api_management.apim_internal.gateway_url
     // TODO may need to parameterise this path?
     path                                      = "/status-0123456789abcdef"
     interval                                  = 30
