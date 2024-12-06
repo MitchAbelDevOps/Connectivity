@@ -51,7 +51,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource-self-hosted.yaml@main
     with:
       environment: "dev"
       root_directory: ${{ inputs.root_directory }}
