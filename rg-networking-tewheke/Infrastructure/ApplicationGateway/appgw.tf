@@ -9,12 +9,12 @@ data "azurerm_subnet" "apgw_subnet" {
 
 data "azurerm_api_management" "apim_internal" {
   name                = "apim-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
-  resource_group_name = var.sharedResourceGroupName
+  resource_group_name = "${var.sharedResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 data "azurerm_user_assigned_identity" "keyvault_secret_reader" {
   name                = "uami-kv-reader-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
-  resource_group_name = local.fullResourceGroupName
+  resource_group_name = "${var.sharedResourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
 }
 
 /**************************************************
