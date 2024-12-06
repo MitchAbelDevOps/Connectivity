@@ -2,7 +2,7 @@
 Existing Resources
 ***************************************************/
 data "azurerm_virtual_network" "vnet_integration" {
-  name                = "vnet-integration-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  name                = "vnet-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}-01"
   resource_group_name = local.fullResourceGroupName
 }
 
