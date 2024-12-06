@@ -82,7 +82,7 @@ resource "azurerm_application_gateway" "app_gateway" {
 
   backend_address_pool {
     name  = "apim"
-    fqdns = apim
+    # fqdns = apim
   }
 
   backend_http_settings {
