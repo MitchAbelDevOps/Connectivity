@@ -57,6 +57,8 @@ jobs:
       root_directory: ${{ inputs.root_directory }}
       sub_directory: ${{ inputs.sub_directory }}
       terraform_state_filename: ${{  inputs.terraform_state_filename }}
+      region: ${{ env.REGION }}
+      region_suffix: ${{ env.REGION_SUFFIX }}
     secrets: inherit
 
   # # Test Environment
@@ -71,6 +73,9 @@ jobs:
   #     root_directory: ${{ inputs.root_directory }}
   #     sub_directory: ${{ inputs.sub_directory }}
   #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     region: ${{ env.REGION }}
+  #     region_suffix: ${{ env.REGION_SUFFIX }}
+  #   secrets: inherit
 
   # # Staging Environment
   # staging:
@@ -84,6 +89,9 @@ jobs:
   #     root_directory: ${{ inputs.root_directory }}
   #     sub_directory: ${{ inputs.sub_directory }}
   #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     region: ${{ env.REGION }}
+  #     region_suffix: ${{ env.REGION_SUFFIX }}
+  #   secrets: inherit
 
   # # Pre-Prod Environment
   # pprod:
@@ -97,6 +105,10 @@ jobs:
   #     root_directory: ${{ inputs.root_directory }}
   #     sub_directory: ${{ inputs.sub_directory }}
   #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     region: ${{ env.REGION }}
+  #     region_suffix: ${{ env.REGION_SUFFIX }}
+  #   secrets: inherit
+  
   # # Prod Environment
   # prod:
   #   if: ${{ inputs.environment == 'prod' }}
@@ -109,3 +121,6 @@ jobs:
   #     root_directory: ${{ inputs.root_directory }}
   #     sub_directory: ${{ inputs.sub_directory }}
   #     terraform_state_filename: ${{  inputs.terraform_state_filename }}
+  #     region: ${{ env.REGION }}
+  #     region_suffix: ${{ env.REGION_SUFFIX }}
+  #   secrets: inherit
