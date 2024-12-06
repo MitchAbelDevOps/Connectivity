@@ -63,6 +63,13 @@ resource "azurerm_subnet" "runners_subnet" {
   virtual_network_name = azurerm_virtual_network.vnet_integration.name
   address_prefixes     = var.gitHubRunnersSubnetAddressPrefix
 
+  delegation {
+    name = "Microsoft.App/environments"
+    service_delegation {
+      name    = "Microsoft.App/environments"
+    }
+  }
+
   lifecycle {
     prevent_destroy = false
   }
