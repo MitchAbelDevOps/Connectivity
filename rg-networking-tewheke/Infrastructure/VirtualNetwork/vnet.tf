@@ -70,7 +70,7 @@ resource "azurerm_subnet" "runners_subnet" {
     }
   }
 
-  service_endpoints = [ Microsoft.Storage ]
+  service_endpoints = [ "Microsoft.Storage" ]
 
   lifecycle {
     prevent_destroy = false
