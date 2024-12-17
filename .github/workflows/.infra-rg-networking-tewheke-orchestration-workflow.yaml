@@ -1,10 +1,10 @@
-name: '.infra-rg-networking-tewheke-orchestration-workflow'
+name: ".infra-rg-networking-mitchtest-orchestration-workflow"
 
 on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'The environment to deploy (e.g., dev, test, prod)'
+        description: "The environment to deploy (e.g., dev, test, prod)"
         required: true
         type: string
 
@@ -12,8 +12,8 @@ jobs:
   deploy_resource_group:
     permissions:
       id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: ./.github/workflows/infra-rg-networking-tewheke-workflow.yaml
+      contents: read # To access repository files if needed
+    uses: ./.github/workflows/infra-rg-networking-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
     secrets: inherit
@@ -21,38 +21,38 @@ jobs:
   deploy_nsgs:
     permissions:
       id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: ./.github/workflows/infra-nsgs-tewheke-workflow.yaml
+      contents: read # To access repository files if needed
+    uses: ./.github/workflows/infra-nsgs-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_resource_group  # Ensures this job runs after deploy_resource_group
+    needs: deploy_resource_group # Ensures this job runs after deploy_resource_group
     secrets: inherit
 
   deploy_vnet:
     permissions:
       id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: ./.github/workflows/infra-vnet-tewheke-workflow.yaml
+      contents: read # To access repository files if needed
+    uses: ./.github/workflows/infra-vnet-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_nsgs  # Ensures this job runs after deploy_nsgs
+    needs: deploy_nsgs # Ensures this job runs after deploy_nsgs
     secrets: inherit
 
   deploy_dns_zone:
     permissions:
       id-token: write # Required for OIDC authentication
-      contents: read  # To access repository files if needed
-    uses: ./.github/workflows/infra-privatednszones-tewheke-workflow.yaml
+      contents: read # To access repository files if needed
+    uses: ./.github/workflows/infra-privatednszones-mitchtest-workflow.yaml
     with:
       environment: ${{ github.event.inputs.environment }}
-    needs: deploy_vnet  # Ensures this job runs after deploy_vnet
+    needs: deploy_vnet # Ensures this job runs after deploy_vnet
     secrets: inherit
 
   # deploy_app_gateway:
   #   permissions:
   #     id-token: write # Required for OIDC authentication
   #     contents: read  # To access repository files if needed
-  #   uses: ./.github/workflows/infra-appgw-tewheke-workflow.yaml
+  #   uses: ./.github/workflows/infra-appgw-mitchtest-workflow.yaml
   #   with:
   #     environment: ${{ github.event.inputs.environment }}
   #   needs: deploy_dns_zone  # Ensures this job runs after deploy_dns_zone

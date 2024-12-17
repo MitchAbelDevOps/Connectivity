@@ -1,1 +1,1 @@
-appGatewayFqdn = "apim.prod.tewheke.justice.co.nz"
+appGatewayFqdn = "apim.prod.mitchtest.justice.co.nz"
