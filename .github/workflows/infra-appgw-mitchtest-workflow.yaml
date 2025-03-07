@@ -1,4 +1,4 @@
-name: "infra-appgw-tewheke-workflow"
+name: "infra-appgw-mitchtest-workflow"
 
 on:
   workflow_call:
@@ -10,17 +10,17 @@ on:
       root_directory:
         description: "Root directory where Terraform config is located"
         required: false
-        default: "rg-networking-tewheke/Infrastructure"
+        default: "rg-networking-mitchtest/Infrastructure"
         type: string
       sub_directory:
         description: "Sub-directory containing resource Terraform files"
         required: false
-        default: "rg-networking-tewheke/Infrastructure/ApplicationGateway"
+        default: "rg-networking-mitchtest/Infrastructure/ApplicationGateway"
         type: string
       terraform_state_filename:
         description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: "appgw-tewheke.tfstate"
+        default: "appgw-mitchtest.tfstate"
         type: string
   workflow_dispatch:
     inputs:
@@ -31,17 +31,17 @@ on:
       root_directory:
         description: "Root directory where Terraform config is located"
         required: false
-        default: "rg-networking-tewheke/Infrastructure"
+        default: "rg-networking-mitchtest/Infrastructure"
         type: string
       sub_directory:
         description: "Sub-directory containing resource Terraform files"
         required: false
-        default: "rg-networking-tewheke/Infrastructure/ApplicationGateway"
+        default: "rg-networking-mitchtest/Infrastructure/ApplicationGateway"
         type: string
       terraform_state_filename:
         description: "Name for the tfstate blob to create for this resource"
         required: false
-        default: "appgw-tewheke.tfstate"
+        default: "appgw-mitchtest.tfstate"
         type: string
 
 jobs:
