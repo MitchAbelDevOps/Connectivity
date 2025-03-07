@@ -25,38 +25,39 @@ module "servicebus_dns_zone" {
   virtual_networks_to_link_id = data.azurerm_virtual_network.vnet_integration.id
 }
 
-// APIM DNS zones and VNET links
-module "api_gateway_dns_zone" {
-  source                      = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateDNSZones"
-  name                        = "azure-api.net"
+// Logic/Function app DNS zone and VNET link
+module "apps_dns_zone" {
+  source                      = "git::https://github.com/MOJNZ-Default/azure-devops-resources//TerraformModules/PrivateDNSZones"
+  name                        = "privatelink.azurewebsites.net"
   resource_group_name         = local.fullResourceGroupName
   virtual_networks_to_link_id = data.azurerm_virtual_network.vnet_integration.id
 }
 
-module "old_developer_portal_dns_zone" {
-  source                      = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateDNSZones"
-  name                        = "portal.azure-api.net"
+// Storage services DNS zones and VNET links
+module "storage_files_dns_zone" {
+  source                      = "git::https://github.com/MOJNZ-Default/azure-devops-resources//TerraformModules/PrivateDNSZones"
+  name                        = "privatelink.file.core.windows.net"
   resource_group_name         = local.fullResourceGroupName
   virtual_networks_to_link_id = data.azurerm_virtual_network.vnet_integration.id
 }
 
-module "new_developer_portal_dns_zone" {
-  source                      = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateDNSZones"
-  name                        = "developer.azure-api.net"
+module "storage_blob_dns_zone" {
+  source                      = "git::https://github.com/MOJNZ-Default/azure-devops-resources//TerraformModules/PrivateDNSZones"
+  name                        = "privatelink.blob.core.windows.net"
   resource_group_name         = local.fullResourceGroupName
   virtual_networks_to_link_id = data.azurerm_virtual_network.vnet_integration.id
 }
 
-module "mgmt_portal_dns_zone" {
-  source                      = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateDNSZones"
-  name                        = "management.azure-api.net"
+module "storage_table_dns_zone" {
+  source                      = "git::https://github.com/MOJNZ-Default/azure-devops-resources//TerraformModules/PrivateDNSZones"
+  name                        = "privatelink.table.core.windows.net"
   resource_group_name         = local.fullResourceGroupName
   virtual_networks_to_link_id = data.azurerm_virtual_network.vnet_integration.id
 }
 
-module "apim_git_dns_zone" {
-  source                      = "github.com/MitchAbelDevOps/DevOps//TerraformModules/PrivateDNSZones"
-  name                        = "scm.azure-api.net"
+module "storage_queue_dns_zone" {
+  source                      = "git::https://github.com/MOJNZ-Default/azure-devops-resources//TerraformModules/PrivateDNSZones"
+  name                        = "privatelink.queue.core.windows.net"
   resource_group_name         = local.fullResourceGroupName
   virtual_networks_to_link_id = data.azurerm_virtual_network.vnet_integration.id
 }
