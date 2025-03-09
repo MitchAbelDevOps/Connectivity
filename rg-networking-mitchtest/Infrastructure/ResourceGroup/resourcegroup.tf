@@ -8,6 +8,8 @@ New Resources
 ***************************************************/
 // Resource Group
 resource "azurerm_resource_group" "resourceGroup" {
-  name = local.fullResourceGroupName
+  name     = local.fullResourceGroupName
   location = var.location
+
+  tags = local.tags
 }
