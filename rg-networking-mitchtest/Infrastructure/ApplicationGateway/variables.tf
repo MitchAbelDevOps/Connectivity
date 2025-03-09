@@ -21,6 +21,10 @@ variable "environment" {
   description = "Environment"
 }
 
+variable "environmentGroup" {
+  type = string
+}
+
 /**************************************************
 Existing Resource Variables
 ***************************************************/
@@ -28,6 +32,10 @@ variable "sharedResourceGroupName" {
   type        = string
   description = "The name of the shared resources resource group"
   default     = "rg-shared"
+}
+
+variable "kvInstanceIdentifier" {
+  type = string
 }
 
 /**************************************************
@@ -39,11 +47,26 @@ variable "resourceGroupName" {
   default     = "rg-networking"
 }
 
-locals {
-  fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+variable "customDomainRoot" {
+  type        = string
+  description = "Root of custom domain"
+  default     = "internal.mitchtest.nz"
 }
 
-variable "appGatewayFqdn" {
+variable "privateIpAddress" {
   type        = string
-  description = "The Azure location to deploy to"
+  description = "IP from the appgw subnet to apply for static allocation"
+}
+
+locals {
+  fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
+  fullCustomDomain      = var.environment == "prd" ? "api.${var.customDomainRoot}" : "${var.environment}-api.${var.customDomainRoot}"
+  tags = {
+    "application-name"  = "Mitchtest Networking"
+    "environment"       = var.environment
+    "owner"             = "mitch.abel@adaptiv.nz"
+    "primary-support"   = ""
+    "rc-code"           = ""
+    "secondary-support" = "Adaptiv"
+  }
 }
