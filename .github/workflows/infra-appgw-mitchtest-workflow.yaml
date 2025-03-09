@@ -51,7 +51,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MitchAbelDevOps/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: "dev"
       root_directory: ${{ inputs.root_directory }}
@@ -66,7 +66,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MitchAbelDevOps/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: "test"
       root_directory: ${{ inputs.root_directory }}
@@ -81,7 +81,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MitchAbelDevOps/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: "stg"
       root_directory: ${{ inputs.root_directory }}
@@ -96,7 +96,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MitchAbelDevOps/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: "pwe"
       root_directory: ${{ inputs.root_directory }}
@@ -111,7 +111,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication
       contents: read # To access repository files if needed
-    uses: MitchAbelDevOps/azure-devops-resources/.github/workflows/deploy-resource.yaml@main
+    uses: MitchAbelDevOps/DevOps/.github/workflows/deploy-resource.yaml@main
     with:
       environment: "prd"
       root_directory: ${{ inputs.root_directory }}
