@@ -6,7 +6,7 @@ Existing Resources
 New Resources
 ***************************************************/
 resource "azurerm_network_security_group" "appgateway_nsg" {
-  name                = "nsg-${var.resourceSuffix}-${var.environment}-apgw-${var.locationSuffix}-01"
+  name                = "nsg-${var.resourceSuffix}-${var.environmentGroup}-apgw-${var.locationSuffix}"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
 
@@ -35,18 +35,6 @@ resource "azurerm_network_security_group" "appgateway_nsg" {
   }
 
   security_rule {
-    name                       = "AllowHTTPInbound"
-    priority                   = 111
-    protocol                   = "Tcp"
-    destination_port_range     = "80"
-    access                     = "Allow"
-    direction                  = "Inbound"
-    source_port_range          = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
     name                       = "AllowAzureLoadBalancerInbound"
     priority                   = 121
     protocol                   = "Tcp"
@@ -57,13 +45,16 @@ resource "azurerm_network_security_group" "appgateway_nsg" {
     source_address_prefix      = "AzureLoadBalancer"
     destination_address_prefix = "*"
   }
+
+  tags = local.tags
+
   lifecycle {
     prevent_destroy = false
   }
 }
 
 resource "azurerm_network_security_group" "apim_nsg" {
-  name                = "nsg-${var.resourceSuffix}-${var.environment}-apim-${var.locationSuffix}-01"
+  name                = "nsg-${var.resourceSuffix}-${var.environmentGroup}-apim-${var.locationSuffix}"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
 
@@ -139,15 +130,19 @@ resource "azurerm_network_security_group" "apim_nsg" {
     destination_address_prefix = "AzureMonitor"
   }
 
+  tags = local.tags
+
   lifecycle {
     prevent_destroy = false
   }
 }
 
 resource "azurerm_network_security_group" "runners_nsg" {
-  name                = "nsg-${var.resourceSuffix}-${var.environment}-runners-${var.locationSuffix}-01" 
+  name                = "nsg-${var.resourceSuffix}-${var.environmentGroup}-runners-${var.locationSuffix}"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
+
+  tags = local.tags
 
   lifecycle {
     prevent_destroy = false
@@ -155,9 +150,35 @@ resource "azurerm_network_security_group" "runners_nsg" {
 }
 
 resource "azurerm_network_security_group" "private_endpoint_nsg" {
-  name                = "nsg-${var.resourceSuffix}-${var.environment}-prep-${var.locationSuffix}-01"
+  name                = "nsg-${var.resourceSuffix}-${var.environmentGroup}-pep-${var.locationSuffix}"
   location            = var.location
   resource_group_name = local.fullResourceGroupName
+
+  tags = local.tags
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+resource "azurerm_network_security_group" "apps_nsg" {
+  name                = "nsg-${var.resourceSuffix}-${var.environmentGroup}-apps-${var.locationSuffix}"
+  location            = var.location
+  resource_group_name = local.fullResourceGroupName
+
+  tags = local.tags
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+resource "azurerm_network_security_group" "jumpbox_nsg" {
+  name                = "nsg-${var.resourceSuffix}-${var.environmentGroup}-jumpbox-${var.locationSuffix}"
+  location            = var.location
+  resource_group_name = local.fullResourceGroupName
+
+  tags = local.tags
 
   lifecycle {
     prevent_destroy = false

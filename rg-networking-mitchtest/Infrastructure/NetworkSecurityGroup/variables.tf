@@ -21,6 +21,10 @@ variable "environment" {
   description = "Environment"
 }
 
+variable "environmentGroup" {
+  type = string
+}
+
 /**************************************************
 Existing Resource Variables
 ***************************************************/
@@ -35,5 +39,13 @@ variable "resourceGroupName" {
 }
 
 locals {
-  fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environment}-${var.locationSuffix}"
+  fullResourceGroupName = "${var.resourceGroupName}-${var.resourceSuffix}-${var.environmentGroup}-${var.locationSuffix}"
+  tags = {
+    "application-name"  = "Mitchtest Networking"
+    "environment"       = var.environmentGroup
+    "owner"             = "mitch.abel@adaptiv.nz"
+    "primary-support"   = ""
+    "rc-code"           = ""
+    "secondary-support" = "Adaptiv"
+  }
 }
