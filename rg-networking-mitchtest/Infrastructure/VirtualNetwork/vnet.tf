@@ -78,9 +78,9 @@ resource "azurerm_subnet" "runners_subnet" {
   service_endpoints = ["Microsoft.Storage", "Microsoft.Web"]
 
   delegation {
-    name = "Microsoft.App/environments"
+    name = "Microsoft.ContainerInstance/containerGroups"
     service_delegation {
-      name    = "Microsoft.App/environments"
+      name    = "Microsoft.ContainerInstance/containerGroups"
     }
   }
 
